@@ -5,10 +5,14 @@
   "patterns": [
     { "include": "#comments" },
     { "include": "#definitions" },
+    { "include": "#tine-declarations" },
+    { "include": "#sweep-arms" },
     { "include": "#keywords" },
     { "include": "#tines" },
     { "include": "#scalars" },
+    { "include": "#function-calls" },
     { "include": "#operators" },
+    { "include": "#punctuation" },
     { "include": "#types" },
     { "include": "#literals" },
     { "include": "#identifiers" }
@@ -17,7 +21,7 @@
     "comments": {
       "patterns": [
         {
-          "name": "comment.line.double-tilde.rake",
+          "name": "comment.line.rake",
           "match": "~~.*$"
         }
       ]
@@ -25,24 +29,50 @@
     "definitions": {
       "patterns": [
         {
-          "match": "\\b(stack|single)\\s+([A-Z][a-zA-Z0-9_]*)\\b",
+          "match": "\\b(stack|single)\\s+([A-Z][a-zA-Z0-9_]*)\\s*(\\{)",
           "captures": {
-            "1": { "name": "keyword.declaration.type.rake" },
-            "2": { "name": "entity.name.type.rake" }
+            "1": { "name": "keyword.other.rake" },
+            "2": { "name": "entity.name.type.rake" },
+            "3": { "name": "punctuation.definition.block.rake" }
           }
         },
         {
-          "match": "\\b(crunch|rake|run)\\s+([a-z_][a-zA-Z0-9_]*)\\b",
+          "match": "\\b(crunch|rake|run)\\s+([a-z_][a-zA-Z0-9_]*)",
           "captures": {
-            "1": { "name": "keyword.declaration.function.rake" },
+            "1": { "name": "keyword.other.rake" },
             "2": { "name": "entity.name.function.rake" }
           }
         },
         {
-          "match": "\\b(type)\\s+([A-Z][a-zA-Z0-9_]*)\\b",
+          "match": "\\b(type)\\s+([A-Z][a-zA-Z0-9_]*)\\s*(=)",
           "captures": {
-            "1": { "name": "keyword.declaration.type.rake" },
-            "2": { "name": "entity.name.type.rake" }
+            "1": { "name": "keyword.other.rake" },
+            "2": { "name": "entity.name.type.rake" },
+            "3": { "name": "keyword.operator.rake" }
+          }
+        }
+      ]
+    },
+    "tine-declarations": {
+      "patterns": [
+        {
+          "match": "(\\|)\\s*(#[a-z_][a-zA-Z0-9_]*)\\s*(:=)",
+          "captures": {
+            "1": { "name": "punctuation.separator.rake" },
+            "2": { "name": "entity.name.tag.rake" },
+            "3": { "name": "keyword.operator.assignment.rake" }
+          }
+        }
+      ]
+    },
+    "sweep-arms": {
+      "patterns": [
+        {
+          "match": "(\\|)\\s*(#[a-z_][a-zA-Z0-9_]*|_)\\s*(->)",
+          "captures": {
+            "1": { "name": "punctuation.separator.rake" },
+            "2": { "name": "entity.name.tag.rake" },
+            "3": { "name": "keyword.operator.arrow.rake" }
           }
         }
       ]
@@ -55,10 +85,10 @@
         },
         {
           "name": "keyword.other.rake",
-          "match": "\\b(let|fun|in)\\b"
+          "match": "\\b(let|fun|in|stack|single|crunch|rake|run|type)\\b"
         },
         {
-          "name": "keyword.operator.logical.rake",
+          "name": "keyword.operator.word.rake",
           "match": "\\b(and|or|not|is)\\b"
         }
       ]
@@ -66,7 +96,7 @@
     "tines": {
       "patterns": [
         {
-          "name": "variable.parameter.tine.rake",
+          "name": "entity.name.tag.rake",
           "match": "#[a-z_][a-zA-Z0-9_]*"
         }
       ]
@@ -74,16 +104,40 @@
     "scalars": {
       "patterns": [
         {
-          "name": "variable.other.scalar.rake",
           "begin": "<",
           "end": ">",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.scalar.begin.rake" }
+          },
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.scalar.end.rake" }
+          },
+          "name": "meta.scalar.rake",
           "patterns": [
-            { "include": "#literals" },
             {
-              "name": "variable.other.scalar.inner.rake",
+              "name": "constant.numeric.float.rake",
+              "match": "-?[0-9]+\\.[0-9]*([eE][+-]?[0-9]+)?"
+            },
+            {
+              "name": "constant.numeric.integer.rake",
+              "match": "-?[0-9]+"
+            },
+            {
+              "name": "variable.other.constant.rake",
               "match": "[a-z_][a-zA-Z0-9_.]*"
             }
           ]
+        }
+      ]
+    },
+    "function-calls": {
+      "patterns": [
+        {
+          "match": "\\b([a-z_][a-zA-Z0-9_]*)\\s*(\\()",
+          "captures": {
+            "1": { "name": "entity.name.function.rake" },
+            "2": { "name": "punctuation.definition.arguments.begin.rake" }
+          }
         }
       ]
     },
@@ -127,7 +181,7 @@
         },
         {
           "name": "keyword.operator.comparison.rake",
-          "match": "<=|>=|!=|<|>|="
+          "match": "<=|>=|!=|==|<(?!-)|(?<!-)>"
         },
         {
           "name": "keyword.operator.logical.rake",
@@ -140,6 +194,26 @@
         {
           "name": "keyword.operator.bitshift.rake",
           "match": "<<<|>>>|<<|>>"
+        },
+        {
+          "name": "keyword.operator.type.rake",
+          "match": ":"
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "name": "punctuation.definition.block.rake",
+          "match": "[{}]"
+        },
+        {
+          "name": "punctuation.definition.arguments.rake",
+          "match": "[()]"
+        },
+        {
+          "name": "punctuation.separator.rake",
+          "match": "[,|]"
         }
       ]
     },
@@ -155,7 +229,7 @@
         },
         {
           "name": "storage.type.collection.rake",
-          "match": "\\b(rack|stack|single|pack)\\b(?=\\s*[,)}]|$)"
+          "match": "\\b(rack|pack)\\b"
         },
         {
           "name": "entity.name.type.rake",
@@ -167,11 +241,11 @@
       "patterns": [
         {
           "name": "constant.numeric.float.rake",
-          "match": "-?[0-9]+\\.[0-9]*([eE][+-]?[0-9]+)?"
+          "match": "(?<!\\w)-?[0-9]+\\.[0-9]*([eE][+-]?[0-9]+)?(?!\\w)"
         },
         {
           "name": "constant.numeric.integer.rake",
-          "match": "-?[0-9]+"
+          "match": "(?<!\\w)-?[0-9]+(?!\\w)"
         },
         {
           "name": "constant.language.boolean.rake",
