@@ -1,0 +1,195 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Rake",
+  "scopeName": "source.rake",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#definitions" },
+    { "include": "#keywords" },
+    { "include": "#tines" },
+    { "include": "#scalars" },
+    { "include": "#operators" },
+    { "include": "#types" },
+    { "include": "#literals" },
+    { "include": "#identifiers" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-tilde.rake",
+          "match": "~~.*$"
+        }
+      ]
+    },
+    "definitions": {
+      "patterns": [
+        {
+          "match": "\\b(stack|single)\\s+([A-Z][a-zA-Z0-9_]*)\\b",
+          "captures": {
+            "1": { "name": "keyword.declaration.type.rake" },
+            "2": { "name": "entity.name.type.rake" }
+          }
+        },
+        {
+          "match": "\\b(crunch|rake|run)\\s+([a-z_][a-zA-Z0-9_]*)\\b",
+          "captures": {
+            "1": { "name": "keyword.declaration.function.rake" },
+            "2": { "name": "entity.name.function.rake" }
+          }
+        },
+        {
+          "match": "\\b(type)\\s+([A-Z][a-zA-Z0-9_]*)\\b",
+          "captures": {
+            "1": { "name": "keyword.declaration.type.rake" },
+            "2": { "name": "entity.name.type.rake" }
+          }
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.rake",
+          "match": "\\b(through|sweep|else)\\b"
+        },
+        {
+          "name": "keyword.other.rake",
+          "match": "\\b(let|fun|in)\\b"
+        },
+        {
+          "name": "keyword.operator.logical.rake",
+          "match": "\\b(and|or|not|is)\\b"
+        }
+      ]
+    },
+    "tines": {
+      "patterns": [
+        {
+          "name": "variable.parameter.tine.rake",
+          "match": "#[a-z_][a-zA-Z0-9_]*"
+        }
+      ]
+    },
+    "scalars": {
+      "patterns": [
+        {
+          "name": "variable.other.scalar.rake",
+          "begin": "<",
+          "end": ">",
+          "patterns": [
+            { "include": "#literals" },
+            {
+              "name": "variable.other.scalar.inner.rake",
+              "match": "[a-z_][a-zA-Z0-9_.]*"
+            }
+          ]
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.arrow.rake",
+          "match": "->|<-"
+        },
+        {
+          "name": "keyword.operator.assignment.rake",
+          "match": ":="
+        },
+        {
+          "name": "keyword.operator.pipe.rake",
+          "match": "\\|>"
+        },
+        {
+          "name": "keyword.operator.shuffle.rake",
+          "match": "~>"
+        },
+        {
+          "name": "keyword.operator.cross.rake",
+          "match": "><"
+        },
+        {
+          "name": "keyword.operator.reduce.rake",
+          "match": "\\\\[+*]/"
+        },
+        {
+          "name": "keyword.operator.reduce.rake",
+          "match": "\\\\(min|max|\\||&)/"
+        },
+        {
+          "name": "keyword.operator.scan.rake",
+          "match": "\\\\[+*]\\\\"
+        },
+        {
+          "name": "keyword.operator.scan.rake",
+          "match": "\\\\(min|max)\\\\"
+        },
+        {
+          "name": "keyword.operator.comparison.rake",
+          "match": "<=|>=|!=|<|>|="
+        },
+        {
+          "name": "keyword.operator.logical.rake",
+          "match": "&&|\\|\\||!"
+        },
+        {
+          "name": "keyword.operator.arithmetic.rake",
+          "match": "[+\\-*/%]"
+        },
+        {
+          "name": "keyword.operator.bitshift.rake",
+          "match": "<<<|>>>|<<|>>"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "storage.type.primitive.rake",
+          "match": "\\b(float|double|int|int8|int16|int64|uint|uint8|uint16|uint64|bool|mask)\\b"
+        },
+        {
+          "name": "storage.type.compound.rake",
+          "match": "\\b(vec2|vec3|vec4|mat3|mat4)\\b"
+        },
+        {
+          "name": "storage.type.collection.rake",
+          "match": "\\b(rack|stack|single|pack)\\b(?=\\s*[,)}]|$)"
+        },
+        {
+          "name": "entity.name.type.rake",
+          "match": "\\b[A-Z][a-zA-Z0-9_]*\\b"
+        }
+      ]
+    },
+    "literals": {
+      "patterns": [
+        {
+          "name": "constant.numeric.float.rake",
+          "match": "-?[0-9]+\\.[0-9]*([eE][+-]?[0-9]+)?"
+        },
+        {
+          "name": "constant.numeric.integer.rake",
+          "match": "-?[0-9]+"
+        },
+        {
+          "name": "constant.language.boolean.rake",
+          "match": "\\b(true|false)\\b"
+        },
+        {
+          "name": "constant.language.special.rake",
+          "match": "\\b(lanes)\\b|@"
+        }
+      ]
+    },
+    "identifiers": {
+      "patterns": [
+        {
+          "name": "variable.other.rake",
+          "match": "\\b[a-z_][a-zA-Z0-9_]*\\b"
+        }
+      ]
+    }
+  }
+}

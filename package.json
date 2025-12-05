@@ -1,0 +1,36 @@
+{
+  "name": "rake-lang",
+  "displayName": "Rake Language",
+  "description": "Syntax highlighting for Rake, a vector-first language for CPU SIMD",
+  "version": "0.2.0",
+  "publisher": "KaiStarkk",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": ["Programming Languages"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KaiStarkk/rake-vscode"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "rake",
+        "aliases": ["Rake", "rake"],
+        "extensions": [".rk"],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./icons/rake-light.png",
+          "dark": "./icons/rake-dark.png"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "rake",
+        "scopeName": "source.rake",
+        "path": "./syntaxes/rake.tmLanguage.json"
+      }
+    ]
+  }
+}
