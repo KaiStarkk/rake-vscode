@@ -51,7 +51,7 @@
       "patterns": [
         {
           "name": "keyword.control.rake",
-          "match": "\\b(through|sweep|else)\\b"
+          "match": "\\b(through|sweep|over|else)\\b"
         },
         {
           "name": "keyword.other.rake",
